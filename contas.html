@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Quantum Manager V7</title>
+    <title>Quantum Manager V8 - Icons & Brands</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         :root {
@@ -16,175 +16,187 @@
         body { 
             margin: 0; font-family: 'Segoe UI', Roboto, sans-serif; 
             background: var(--bg); display: flex; flex-direction: column; 
-            height: 100vh; overflow: hidden; /* Impede o body de rolar, apenas a lista rola */
+            height: 100vh; overflow: hidden; 
         }
 
         header { 
             background: var(--brand); color: white; padding: 1rem; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); flex-shrink: 0; 
-            z-index: 1001;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); flex-shrink: 0; z-index: 1001;
         }
         
         .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         #search-bar { width: 100%; padding: 10px; border-radius: 8px; border: none; outline: none; }
 
-        .app-container { 
-            width: 100%; max-width: 800px; margin: 0 auto; 
-            flex: 1; display: flex; flex-direction: column; 
-            overflow: hidden; /* Mantém o container firme */
-        }
+        .app-container { width: 100%; max-width: 800px; margin: 0 auto; flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 
-        .summary-card { 
-            background: var(--surface); margin: 0.8rem; padding: 1rem; 
-            border-radius: 15px; text-align: center; flex-shrink: 0;
-        }
-        
+        .summary-card { background: var(--surface); margin: 0.8rem; padding: 1rem; border-radius: 15px; text-align: center; flex-shrink: 0; }
         .total-amount { font-size: 2.2rem; font-weight: 800; color: var(--brand); }
 
-        /* --- CORREÇÃO DO SCROLL --- */
         .main-scroll { 
-            flex: 1; 
-            overflow-y: auto; 
-            padding: 0 1rem 15px 1rem;
-            /* O segredo está aqui: o padding-bottom deve ser maior que a altura do painel inferior */
-            padding-bottom: 280px; 
-            -webkit-overflow-scrolling: touch; /* Scroll suave no mobile */
+            flex: 1; overflow-y: auto; padding: 0 1rem 320px 1rem; 
+            -webkit-overflow-scrolling: touch; 
         }
 
         .item-card { 
             background: var(--surface); margin-bottom: 0.8rem; padding: 1rem; 
-            border-radius: 12px; display: flex; justify-content: space-between; 
-            align-items: center; border: 1px solid #eee;
+            border-radius: 12px; display: flex; align-items: center; 
+            gap: 12px; border: 1px solid #eee;
         }
 
-        /* --- PAINEL INFERIOR --- */
+        .product-icon {
+            width: 50px; height: 50px; background: #f0ebf8; 
+            border-radius: 10px; display: flex; align-items: center; 
+            justify-content: center; font-size: 1.5rem; flex-shrink: 0;
+        }
+
+        .item-info { flex: 1; }
+        .brand-tag { font-size: 0.7rem; color: var(--brand); font-weight: bold; text-transform: uppercase; }
+
+        /* PAINEL INFERIOR EXPANDIDO */
         .input-panel { 
             position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); 
             width: 100%; max-width: 800px; background: white; 
             padding: 1rem; border-top: 2px solid #ddd; 
             display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem; 
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.15); 
-            z-index: 1000;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.15); z-index: 1000;
         }
 
-        input, select { padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; }
-        #p-name, #p-cat { grid-column: span 4; }
+        input, select { padding: 0.7rem; border: 1px solid #ddd; border-radius: 8px; font-size: 0.9rem; width: 100%; }
+        
+        #p-name { grid-column: span 2; }
+        #p-brand { grid-column: span 2; }
+        #p-type { grid-column: span 2; }
+        #p-cat { grid-column: span 2; }
         #p-qty, #p-price { grid-column: span 2; }
-        .btn-save { grid-column: span 4; background: var(--brand); color: white; border: none; padding: 1rem; border-radius: 8px; font-weight: bold; }
+        .btn-save { grid-column: span 4; background: var(--brand); color: white; border: none; padding: 0.9rem; border-radius: 8px; font-weight: bold; }
 
-        .btn-exp { border: none; padding: 8px 10px; border-radius: 6px; color: white; font-weight: bold; cursor: pointer; }
-
-        @media (min-width: 600px) { #p-name, #p-cat { grid-column: span 2; } }
+        .btn-exp { border: none; padding: 8px 10px; border-radius: 6px; color: white; font-weight: bold; cursor: pointer; font-size: 0.7rem; }
     </style>
 </head>
 <body>
 
 <header>
     <div class="header-top">
-        <strong>QUANTUM V7</strong>
+        <strong>QUANTUM V8 PRO</strong>
         <div style="display:flex; gap:5px">
             <button class="btn-exp" style="background:var(--wp)" onclick="manager.exportWP()">WP</button>
-            <button class="btn-exp" style="background:var(--tg)" onclick="manager.exportTG()">TG</button>
             <button class="btn-exp" style="background:var(--pdf)" onclick="manager.exportPDF()">PDF</button>
         </div>
     </div>
-    <input type="text" id="search-bar" placeholder="🔍 Buscar na lista..." oninput="manager.render()">
+    <input type="text" id="search-bar" placeholder="🔍 Buscar por nome, marca ou tipo..." oninput="manager.render()">
 </header>
 
 <div class="app-container">
     <div class="summary-card">
         <div class="total-amount" id="display-total">R$ 0,00</div>
-        <small id="count-info">0 itens registrados</small>
+        <small id="count-info">0 produtos</small>
     </div>
-    
     <div class="main-scroll" id="product-list"></div>
 </div>
 
-<div class="input-panel" id="ui-panel">
-    <input type="text" id="p-name" placeholder="Nome do Produto">
+<div class="input-panel">
+    <input type="text" id="p-name" placeholder="Produto (Ex: Arroz)">
+    <input type="text" id="p-brand" placeholder="Marca (Ex: Tio João)">
+    <input type="text" id="p-type" placeholder="Tipo (Ex: Integral)">
     <select id="p-cat">
-        <option value="Mercado">🛒 Mercado</option>
-        <option value="Lazer">🍕 Lazer</option>
-        <option value="Contas">📄 Contas</option>
+        <option value="Alimentação">🍎 Alimentação</option>
+        <option value="Limpeza">🧼 Limpeza</option>
+        <option value="Higiene">🪥 Higiene</option>
+        <option value="Eletrônicos">⚡ Eletrônicos</option>
         <option value="Outros">📦 Outros</option>
     </select>
     <input type="number" id="p-qty" placeholder="Qtd" value="1">
     <input type="text" id="p-price" placeholder="R$ 0,00" oninput="manager.applyMask(this)">
-    <button class="btn-save" id="btn-action" onclick="manager.handleAction()">ADICIONAR ITEM</button>
+    <button class="btn-save" id="btn-action" onclick="manager.handleAction()">SALVAR PRODUTO</button>
 </div>
 
 <script>
-    /**
-     * DEPURAÇÃO V7: Ajuste de Layout e Persistência
-     * Foco: Visibilidade do último item e máscara BRL
-     */
-
     class Product {
-        constructor(id, name, qty, price, cat) {
-            this.id = id; this.name = name; this.qty = Number(qty); 
+        constructor(id, name, brand, type, qty, price, cat) {
+            this.id = id; this.name = name; this.brand = brand || "S/M";
+            this.type = type || "Geral"; this.qty = Number(qty); 
             this.price = Number(price); this.cat = cat;
+            this.icon = this.mapIcon(name, cat);
         }
+
+        mapIcon(name, cat) {
+            const n = name.toLowerCase();
+            if (n.includes("arroz") || n.includes("feijao")) return "🌾";
+            if (n.includes("carne") || n.includes("frango")) return "🥩";
+            if (n.includes("leite") || n.includes("queijo")) return "🥛";
+            if (n.includes("sabao") || n.includes("detergente")) return "🧼";
+            if (n.includes("celular") || n.includes("fone")) return "📱";
+            if (n.includes("remedio") || n.includes("pilula")) return "💊";
+            if (cat === "Alimentação") return "🍞";
+            if (cat === "Limpeza") return "🧹";
+            if (cat === "Eletrônicos") return "💻";
+            return "📦";
+        }
+
         get total() { return this.qty * this.price; }
     }
 
     class AppManager {
         constructor() {
-            this.dbKey = 'quantum_v7_db';
+            this.dbKey = 'quantum_v8_db';
             const data = JSON.parse(localStorage.getItem(this.dbKey)) || [];
-            this.products = data.map(p => new Product(p.id, p.name, p.qty, p.price, p.cat));
+            this.products = data.map(p => new Product(p.id, p.name, p.brand, p.type, p.qty, p.price, p.cat));
             this.editingId = null;
             this.render();
         }
 
         applyMask(input) {
-            let value = input.value.replace(/\D/g, "");
-            value = (value / 100).toFixed(2) + "";
-            value = value.replace(".", ",").replace(/(\d)(\d{3})(\d{3}),/g, "$1.$2.$3,").replace(/(\d)(\d{3}),/g, "$1.$2,");
-            input.value = "R$ " + value;
+            let v = input.value.replace(/\D/g, "");
+            v = (v / 100).toFixed(2) + "";
+            v = v.replace(".", ",").replace(/(\d)(\d{3})(\d{3}),/g, "$1.$2.$3,").replace(/(\d)(\d{3}),/g, "$1.$2,");
+            input.value = "R$ " + v;
         }
 
-        parsePrice(formatted) {
-            return Number(formatted.replace(/[^\d,]/g, "").replace(",", "."));
-        }
+        parsePrice(v) { return Number(v.replace(/[^\d,]/g, "").replace(",", ".")); }
 
         handleAction() {
             const name = document.getElementById('p-name').value;
+            const brand = document.getElementById('p-brand').value;
+            const type = document.getElementById('p-type').value;
             const qty = document.getElementById('p-qty').value;
             const price = this.parsePrice(document.getElementById('p-price').value);
             const cat = document.getElementById('p-cat').value;
 
-            if(!name || !price) return alert("Preencha Nome e Preço!");
+            if(!name || !price) return alert("Nome e Preço são obrigatórios!");
 
             if(this.editingId) {
                 const i = this.products.findIndex(p => p.id === this.editingId);
-                this.products[i] = new Product(this.editingId, name, qty, price, cat);
+                this.products[i] = new Product(this.editingId, name, brand, type, qty, price, cat);
                 this.editingId = null;
-                document.getElementById('btn-action').innerText = "ADICIONAR ITEM";
+                document.getElementById('btn-action').innerText = "SALVAR PRODUTO";
             } else {
-                this.products.push(new Product(Date.now(), name, qty, price, cat));
+                this.products.push(new Product(Date.now(), name, brand, type, qty, price, cat));
             }
 
             this.save(); this.render(); this.clear();
         }
 
         save() { localStorage.setItem(this.dbKey, JSON.stringify(this.products)); }
-        clear() { document.getElementById('p-name').value = ''; document.getElementById('p-price').value = ''; }
+        
+        clear() { 
+            ["p-name", "p-brand", "p-type", "p-price"].forEach(id => document.getElementById(id).value = '');
+            document.getElementById('p-qty').value = '1';
+        }
 
         edit(id) {
             const p = this.products.find(x => x.id === id);
             document.getElementById('p-name').value = p.name;
+            document.getElementById('p-brand').value = p.brand;
+            document.getElementById('p-type').value = p.type;
             document.getElementById('p-qty').value = p.qty;
             const pr = document.getElementById('p-price');
-            pr.value = (p.price * 100).toString(); 
-            this.applyMask(pr);
+            pr.value = (p.price * 100).toString(); this.applyMask(pr);
             document.getElementById('p-cat').value = p.cat;
             this.editingId = id;
             document.getElementById('btn-action').innerText = "ATUALIZAR ITEM";
-            // Rola para o formulário no mobile
-            document.getElementById('ui-panel').scrollIntoView();
         }
 
-        remove(id) { if(confirm("Deseja excluir?")) { this.products = this.products.filter(p => p.id !== id); this.save(); this.render(); } }
+        remove(id) { if(confirm("Remover item?")) { this.products = this.products.filter(p => p.id !== id); this.save(); this.render(); } }
 
         render() {
             const query = document.getElementById('search-bar').value.toLowerCase();
@@ -192,16 +204,21 @@
             list.innerHTML = '';
             let total = 0;
 
-            const filtered = this.products.filter(p => p.name.toLowerCase().includes(query));
+            const filtered = this.products.filter(p => 
+                p.name.toLowerCase().includes(query) || 
+                p.brand.toLowerCase().includes(query) || 
+                p.type.toLowerCase().includes(query)
+            );
 
             filtered.forEach(p => {
                 total += p.total;
                 const card = document.createElement('div');
                 card.className = 'item-card';
                 card.innerHTML = `
-                    <div style="flex:1">
-                        <small style="color:var(--brand); font-weight:bold">${p.cat}</small>
-                        <div style="font-weight:bold">${p.name}</div>
+                    <div class="product-icon">${p.icon}</div>
+                    <div class="item-info">
+                        <span class="brand-tag">${p.brand}</span>
+                        <div style="font-weight:bold">${p.name} <small style="color:#666">(${p.type})</small></div>
                         <div style="font-size:0.8rem; color:#777">${p.qty}x R$ ${p.price.toLocaleString('pt-br',{minFractionDigits:2})}</div>
                     </div>
                     <div style="text-align:right">
@@ -215,23 +232,23 @@
                 list.appendChild(card);
             });
             document.getElementById('display-total').innerText = `R$ ${total.toLocaleString('pt-br',{minFractionDigits:2})}`;
-            document.getElementById('count-info').innerText = `${filtered.length} produtos na lista`;
+            document.getElementById('count-info').innerText = `${filtered.length} itens encontrados`;
         }
 
-        // Exportadores mantidos conforme V6
-        getTxt() {
-            let t = "*RELATÓRIO DE COMPRAS*%0A%0A";
-            this.products.forEach(p => t += `• ${p.name}: R$ ${p.total.toFixed(2)}%0A`);
-            return t;
+        exportWP() {
+            let t = "*RELATÓRIO QUANTUM V8*%0A%0A";
+            this.products.forEach(p => t += `📦 *${p.name}* (${p.brand})%0A💰 Total: R$ ${p.total.toFixed(2)}%0A%0A`);
+            window.open(`https://wa.me/?text=${t}`);
         }
-        exportWP() { window.open(`https://wa.me/?text=${this.getTxt()}`); }
-        exportTG() { window.open(`https://t.me/share/url?url=Quantum&text=${this.getTxt()}`); }
+
         exportPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            doc.text("Relatório Quantum V7", 10, 20);
-            this.products.forEach((p, i) => doc.text(`${i+1}. ${p.name} - R$ ${p.total.toFixed(2)}`, 10, 35+(i*10)));
-            doc.save("quantum_report.pdf");
+            doc.text("Relatório de Compras - Quantum V8", 10, 20);
+            this.products.forEach((p, i) => {
+                doc.text(`${i+1}. ${p.name} [${p.brand}] (${p.type}) - R$ ${p.total.toFixed(2)}`, 10, 35+(i*10));
+            });
+            doc.save("quantum_v8.pdf");
         }
     }
 
