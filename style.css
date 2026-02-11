@@ -1,0 +1,226 @@
+:root {
+    --primary: #1d7a3d;
+    --secondary: #d4a017;
+    --accent: #ff4b4b;
+    --bg-dark: #0f0f0f;
+    --bg-card: #1a1a1a;
+    --text-main: #ffffff;
+    --text-dim: #a0a0a0;
+    --glass: rgba(255, 255, 255, 0.05);
+    --safe-area-top: env(safe-area-inset-top);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+}
+
+.container {
+    width: 92%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header Moderno */
+.main-header {
+    background: linear-gradient(135deg, #161616 0%, #000 100%);
+    padding: calc(20px + var(--safe-area-top)) 0 20px;
+    border-bottom: 1px solid var(--glass);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--glass);
+}
+
+.brand-text h1 {
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.brand-text span {
+    color: var(--secondary);
+}
+
+.live-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--accent);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+}
+
+/* Grid Responsivo */
+.section-title {
+    margin: 30px 0 20px;
+}
+
+.section-title h2 { font-size: 1.4rem; }
+.section-title p { color: var(--text-dim); font-size: 0.9rem; }
+
+.grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    padding-bottom: 40px;
+}
+
+/* Card Estilo Netflix/YouTube */
+.live-card {
+    background: var(--bg-card);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid transparent;
+}
+
+.live-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--primary);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+}
+
+.thumb-wrapper {
+    position: relative;
+    aspect-ratio: 16/9;
+}
+
+.thumb-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.status-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.status-badge.online { color: var(--accent); border: 1px solid var(--accent); }
+
+.info-content {
+    padding: 16px;
+}
+
+.info-content h3 {
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+
+/* Modal Player Glassmorphism */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.95);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-card {
+    width: 95%;
+    max-width: 900px;
+    position: relative;
+    animation: slideUp 0.3s ease-out;
+}
+
+.aspect-ratio {
+    aspect-ratio: 16/9;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.aspect-ratio iframe { width: 100%; height: 100%; }
+
+.btn-close {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+/* Badge de destaque para os mais recentes */
+.badge-recente {
+    background: var(--live-red);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+    animation: brilho 2s infinite;
+}
+
+.badge-live { background: #ff0000; }     /* Vermelho para Lives */
+.badge-video { background: #007bff; }    /* Azul para Vídeos */
+.badge-playlist { background: #ffc107; } /* Dourado para Playlists */
+
+@keyframes brilho {
+    0% { box-shadow: 0 0 0 0 rgba(255, 75, 75, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 75, 75, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 75, 75, 0); }
+}
+
+/* Animações */
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Responsividade para Tablets/Desktops Pequenos */
+@media (max-width: 600px) {
+    .grid-layout { grid-template-columns: 1fr; }
+    .brand-text h1 { font-size: 1rem; }
+}
+]

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Barriguda WebTV | Ao Vivo</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container header-flex">
+            <div class="brand">
+                <img src="logo.png" alt="Logo" class="logo-img" onerror="this.style.opacity='0'">
+                <div class="brand-text">
+                    <h1>Barriguda <span>WebTV</span></h1>
+                    <div class="live-indicator">
+                        <span class="dot"></span> Transmitindo agora
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="section-title">
+            <h2>Canais & Programas</h2>
+            <p>Selecione uma transmissão para assistir</p>
+        </section>
+        
+        <div id="live-container" class="grid-layout">
+            </div>
+    </main>
+
+    <div id="video-modal" class="modal-overlay">
+        <div class="modal-card">
+            <button class="btn-close" onclick="fecharPlayer()" aria-label="Fechar">&times;</button>
+            <div class="aspect-ratio">
+                <iframe id="player-frame" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script src="dados.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
